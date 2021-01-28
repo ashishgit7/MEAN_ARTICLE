@@ -1,0 +1,32 @@
+<div class="card h-100 p-3 m-3 {{ran(ind)}}">
+    <div class="card-body">
+        <h5 class="card-title">{{article.header}}</h5>
+        <p class="card-text">{{article.desc}}</p>
+        <div class="card-footer">
+        <p class="badge bg-info text-dark m-1 p-3" *ngFor="let tag of article.tags">{{tag}}</p>
+        </div>       
+        <button type="button" class="btn btn-primary p-1 mt-3" data-bs-toggle="modal" attr.data-bs-target="#exampleModal{{article._id}}">
+            Add Tag
+        </button>
+        <div class="modal fade" [id]="'exampleModal'+article._id" tabindex="-1" attr.aria-labelledby="exampleModalLabel'{{article._id}}" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" [id]="'exampleModalLabel'+article._id">Tag</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <input type="text" list="staticUserIds" [(ngModel)] = "tagValue" placeholder="Add tag"/>
+                        <datalist id="staticUserIds">
+                            <option *ngFor ="let tag of prevTagList">{{tag.name}}</option>
+                        </datalist>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" >Close</button>
+                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="addTag()">Save changes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
