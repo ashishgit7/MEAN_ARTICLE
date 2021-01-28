@@ -13,14 +13,14 @@ export class ArticleComponent implements OnInit {
   public descValue:string= ""
   public searchValue:string= ""
   public articleList:article[]
+  public filterList:article[]
   public prevTagList:tags[]
 
   constructor(private _articleService: ArticleService) { }
-  check(tagList:tags[]):boolean{
-    const found:boolean =  tagList.some((tag)=>this.searchValue===tag.name)
-    if(found||this.searchValue=='')
-    return true
-    else return false
+  filter():void{
+      this.filterList = this.articleList.filter((article)=>{
+        return article.tags.some((tag)=>tag.toLowerCase().includes(this.searchValue.toLowerCase()))
+      })
   }
   disp():void{
     const article = {
@@ -32,12 +32,15 @@ export class ArticleComponent implements OnInit {
   }
   getData():void{
     this._articleService.getArticles()
-    .subscribe(data=> this.articleList=data)
+    .subscribe(data=> {this.articleList=data
+      this.filterList=this.articleList
+    })
     this._articleService.getTag()
     .subscribe(data=>this.prevTagList=data)
   }
   ngOnInit(): void {
     this.getData()
+    
   }
 
 }
